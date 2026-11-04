@@ -27,7 +27,7 @@ const translations = {
     bytecraft: "ByteCraft Asset Vault",
     bytecraftTag: "WEB DEV / NEO-BRUTALISM",
     bytecraftDescription: "A high-contrast Neo-Brutalist developer asset landing page with custom UI components and interactive clipboard code snippets.",
-    viewDemo: "View Live Demo",
+    viewDemo: "View Demo",
     atayTag: "WEB DESIGN / ÄTÄY",
     atayDescription: "A considered web experience with a distinctive visual identity and responsive layout.",
     webDesignHorizon: "WEB DESIGN / HORIZON PEAK",
