@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <meta name="theme-color" content="#f7f7f5">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="site-header">
+      <a class="wordmark" href="#top">TIA <span>/ <span data-i18n="portfolioWord">PORTFOLIO</span></span></a>
+      <nav class="desktop-nav" aria-label="Main navigation" data-i18n-aria="mainNavLabel">
+        <a href="#web-development" data-i18n="webSection">Web Design &amp; Development</a>
+        <a href="#graphic-design" data-i18n="graphicSection">Graphic Design</a>
+        <div class="language-switch" role="group" aria-label="Language" data-i18n-aria="languageLabel">
+          <button type="button" data-language="en" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-language="sl" aria-label="Slovenščina" aria-pressed="false">SL</button>
+        </div>
+        <button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Enable dark mode">
+          <span>Dark mode</span>
+          <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+        </button>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Hero / Intro Section -->
+    <header class="hero" id="top">
+        <h1 aria-label="Hi, I'm Tia"><span class="typing-text" aria-hidden="true" data-i18n="heroTitle">Hi, I'm Tia</span></h1>
+        <p data-i18n="role">Frontend Developer &amp; Multimedia Designer</p>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-i18n-aria="siteMenuLabel" aria-hidden="true" inert>
+      <div class="mobile-menu-top">
+        <a class="wordmark" href="#top">TIA <span>/ <span data-i18n="portfolioWord">PORTFOLIO</span></span></a>
+        <button class="menu-close" type="button" aria-label="Close menu"></button>
+      </div>
+      <p class="menu-kicker" data-i18n="navigation">NAVIGATION</p>
+      <nav aria-label="Mobile navigation" data-i18n-aria="mobileNavLabel">
+        <details class="mobile-nav-group">
+          <summary><span>01</span><span data-i18n="webSection">Web Design &amp; Development</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></summary>
+          <div class="mobile-project-list">
+            <a href="#bytecraft" data-i18n="bytecraft">ByteCraft Asset Vault</a>
+            <a href="#atay">ÄTÄY</a>
+            <a href="#horizonpeak">Horizon Peak</a>
+            <a href="#apartma-izola">Apartma Izola</a>
+          </div>
+        </details>
+        <details class="mobile-nav-group">
+          <summary><span>02</span><span data-i18n="graphicSection">Graphic Design</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></summary>
+          <div class="mobile-project-list">
+            <p class="mobile-empty" data-i18n="emptyProjects">New projects in progress.</p>
+          </div>
+        </details>
+      </nav>
+      <div class="mobile-menu-bottom">
+        <div class="mobile-language-row">
+          <span data-i18n="languageText">LANGUAGE</span>
+          <div class="language-switch" role="group" aria-label="Language" data-i18n-aria="languageLabel">
+            <button type="button" data-language="en" aria-label="English" aria-pressed="true">EN</button>
+            <button type="button" data-language="sl" aria-label="Slovenščina" aria-pressed="false">SL</button>
+          </div>
+        </div>
+        <button class="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Enable dark mode">
+          <span>Dark mode</span>
+          <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+        </button>
+        <span data-i18n="appearance">APPEARANCE</span>
+      </div>
+    </div>
+
+    <main>
+        <section class="field-section" id="web-development" aria-labelledby="web-development-title">
+          <div class="section-heading">
+            <span class="section-index">01 / FIELD</span>
+            <h2 id="web-development-title" data-i18n="webSection">Web Design &amp; Development</h2>
+          </div>
+          <details class="field-disclosure" open>
+            <summary class="section-summary">
+              <span class="section-title-wrap"><span class="section-index">01</span><span class="mobile-section-title" data-i18n="webSection">Web Design &amp; Development</span></span>
+              <span class="disclosure-indicator" aria-hidden="true"></span>
+            </summary>
+            <div class="section-content">
+              <div class="portfolio-grid">
+                <article class="project-card" id="bytecraft">
+                  <div class="card-header">
+                    <span class="tag" data-i18n="bytecraftTag">WEB DEV / NEO-BRUTALISM</span>
+                    <h3 data-i18n="bytecraft">ByteCraft Asset Vault</h3>
+                  </div>
+                  <p data-i18n="bytecraftDescription">A high-contrast Neo-Brutalist developer asset landing page with custom UI components and interactive clipboard code snippets.</p>
+                  <a href="https://tiyalov.github.io/bytecraft/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="viewDemo">View Live Demo</a>
+                </article>
+                <article class="project-card" id="atay">
+                  <div class="card-header">
+                    <span class="tag" data-i18n="atayTag">WEB DESIGN / ÄTÄY</span>
+                    <h3>ÄTÄY</h3>
+                  </div>
+                  <p data-i18n="atayDescription">A considered web experience with a distinctive visual identity and responsive layout.</p>
+                  <a href="https://tiyalov.github.io/atay/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="viewSite">View Live Site</a>
+                </article>
+                <article class="project-card" id="horizonpeak">
+                  <div class="card-header">
+                    <span class="tag" data-i18n="webDesignHorizon">WEB DESIGN / HORIZON PEAK</span>
+                    <h3>Horizon Peak</h3>
+                  </div>
+                  <p data-i18n="horizonDescription">A polished web design project built to make its content easy to explore.</p>
+                  <a href="https://tiyalov.github.io/horizonpeak/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="viewSite">View Live Site</a>
+                </article>
+                <article class="project-card" id="apartma-izola">
+                  <div class="card-header">
+                    <span class="tag" data-i18n="webDesignApartma">WEB DESIGN / APARTMA IZOLA</span>
+                    <h3>Apartma Izola</h3>
+                  </div>
+                  <p data-i18n="apartmaDescription">A welcoming, responsive web presence for an apartment in Izola.</p>
+                  <a href="https://tiyalov.github.io/apartma_izola/" target="_blank" rel="noopener noreferrer" class="btn" data-i18n="viewSite">View Live Site</a>
+                </article>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <section class="field-section" id="graphic-design" aria-labelledby="graphic-design-title">
+          <div class="section-heading">
+            <span class="section-index">02 / FIELD</span>
+            <h2 id="graphic-design-title" data-i18n="graphicSection">Graphic Design</h2>
+          </div>
+          <details class="field-disclosure" open>
+            <summary class="section-summary">
+              <span class="section-title-wrap"><span class="section-index">02</span><span class="mobile-section-title" data-i18n="graphicSection">Graphic Design</span></span>
+              <span class="disclosure-indicator" aria-hidden="true"></span>
+            </summary>
+            <div class="section-content">
+              <div class="field-empty">
+                <p data-i18n="emptyProjects">New projects in progress.</p>
+              </div>
+            </div>
+          </details>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p data-i18n="copyright">&copy; 2026 Tia. All rights reserved.</p>
+      <p data-i18n="footerNote">DESIGNED WITH INTENTION</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+
+</body>
+</html>
