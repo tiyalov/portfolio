@@ -8,7 +8,6 @@ const mobileQuery = window.matchMedia("(max-width: 700px)");
 const fieldDisclosures = document.querySelectorAll(".field-disclosure");
 const typingText = document.querySelector(".typing-text");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const disclosureCloseTimers = new WeakMap();
 const translations = {
   en: {
     pageTitle: "Tia | Portfolio",
@@ -105,11 +104,12 @@ function applyDisclosureHeights() {
   fieldDisclosures.forEach((disclosure) => {
     const content = disclosure.querySelector(".section-content");
     if (!content) return;
-    if (disclosure.dataset.closing === "true") return;
     const isOpen = disclosure.open;
     content.style.maxHeight = isOpen ? `${content.scrollHeight}px` : "0px";
     content.style.opacity = isOpen ? "1" : "0";
     content.setAttribute("data-open", String(isOpen));
+    content.setAttribute("aria-hidden", String(!isOpen));
+    content.inert = !isOpen;
     disclosure.querySelector("summary").setAttribute("aria-expanded", String(isOpen));
   });
 }
@@ -221,40 +221,29 @@ setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en
 fieldDisclosures.forEach((disclosure) => {
   disclosure.open = false;
   const summary = disclosure.querySelector("summary");
+  const content = disclosure.querySelector(".section-content");
   summary.setAttribute("aria-expanded", "false");
+  content.setAttribute("aria-hidden", "true");
+  content.inert = true;
   summary.addEventListener("click", (event) => {
     event.preventDefault();
-    const content = disclosure.querySelector(".section-content");
-    if (disclosure.open && disclosure.dataset.closing !== "true") {
+    if (disclosure.open) {
       content.style.maxHeight = `${content.getBoundingClientRect().height}px`;
       content.style.opacity = "1";
       content.offsetHeight;
-      disclosure.dataset.closing = "true";
-      const transitionId = String(Number(disclosure.dataset.transitionId || 0) + 1);
-      disclosure.dataset.transitionId = transitionId;
+      disclosure.open = false;
       summary.setAttribute("aria-expanded", "false");
       content.setAttribute("data-open", "false");
+      content.setAttribute("aria-hidden", "true");
+      content.inert = true;
       content.style.maxHeight = "0px";
       content.style.opacity = "0";
-      const finishClose = (transitionEvent) => {
-        if (transitionEvent && transitionEvent.propertyName !== "max-height") return;
-        content.removeEventListener("transitionend", finishClose);
-        window.clearTimeout(disclosureCloseTimers.get(disclosure));
-        disclosureCloseTimers.delete(disclosure);
-        if (disclosure.dataset.closing !== "true" || disclosure.dataset.transitionId !== transitionId) return;
-        disclosure.open = false;
-        delete disclosure.dataset.closing;
-      };
-      content.addEventListener("transitionend", finishClose);
-      disclosureCloseTimers.set(disclosure, window.setTimeout(() => finishClose(), 500));
       return;
     }
     disclosure.open = true;
-    window.clearTimeout(disclosureCloseTimers.get(disclosure));
-    disclosureCloseTimers.delete(disclosure);
-    disclosure.dataset.transitionId = String(Number(disclosure.dataset.transitionId || 0) + 1);
-    delete disclosure.dataset.closing;
     summary.setAttribute("aria-expanded", "true");
+    content.setAttribute("aria-hidden", "false");
+    content.inert = false;
     content.style.maxHeight = `${content.scrollHeight}px`;
     content.style.opacity = "1";
     content.setAttribute("data-open", "true");

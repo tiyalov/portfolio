@@ -322,6 +322,10 @@ main {
   opacity: 0;
 }
 
+.field-disclosure:not([open]) > .section-content {
+  display: block;
+}
+
 .field-empty {
   grid-column: 2 / -1;
   min-height: 112px;
