@@ -104,9 +104,10 @@ function applyDisclosureHeights() {
   fieldDisclosures.forEach((disclosure) => {
     const content = disclosure.querySelector(".section-content");
     if (!content) return;
-    const nextHeight = disclosure.open ? `${content.scrollHeight}px` : "0px";
-    content.style.maxHeight = nextHeight;
-    content.style.opacity = disclosure.open ? "1" : "0";
+    const isOpen = disclosure.open;
+    content.style.maxHeight = isOpen ? `${content.scrollHeight}px` : "0px";
+    content.style.opacity = isOpen ? "1" : "0";
+    content.setAttribute("data-open", String(isOpen));
   });
 }
 
@@ -216,20 +217,16 @@ setTheme(savedTheme === "dark" ? "dark" : "light", false);
 setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en", false);
 fieldDisclosures.forEach((disclosure) => {
   disclosure.open = false;
+  const summary = disclosure.querySelector("summary");
+  summary.addEventListener("click", (event) => {
+    event.preventDefault();
+    disclosure.open = !disclosure.open;
+    applyDisclosureHeights();
+  });
 });
 if (!reduceMotion.matches) typeIntro();
 applyDisclosureHeights();
 syncDisclosureMode();
-
-fieldDisclosures.forEach((disclosure) => {
-  const summary = disclosure.querySelector("summary");
-  summary.addEventListener("click", () => {
-    window.requestAnimationFrame(() => applyDisclosureHeights());
-  });
-  disclosure.addEventListener("toggle", () => {
-    window.requestAnimationFrame(() => applyDisclosureHeights());
-  });
-});
 
 themeToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {

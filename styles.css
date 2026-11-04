@@ -310,11 +310,16 @@ main {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 420ms ease, opacity 260ms ease;
+  will-change: max-height, opacity;
+  transition: max-height 420ms ease, opacity 220ms ease;
 }
 
 .field-disclosure[open] .section-content {
   opacity: 1;
+}
+
+.field-disclosure:not([open]) .section-content {
+  opacity: 0;
 }
 
 .field-empty {
@@ -538,14 +543,19 @@ footer p:last-child {
     padding: 18px 20px 28px;
     color: var(--ink);
     background: var(--paper);
+    opacity: 0;
+    pointer-events: none;
     transform: translateX(100%);
     visibility: hidden;
-    transition: transform 300ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    transition: transform 320ms cubic-bezier(0.2, 0.75, 0.25, 1), opacity 220ms ease, visibility 0s linear 220ms;
   }
 
   .mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
     transform: translateX(0);
     visibility: visible;
+    transition: transform 320ms cubic-bezier(0.2, 0.75, 0.25, 1), opacity 220ms ease, visibility 0s linear 0s;
   }
 
   .mobile-menu-top {
