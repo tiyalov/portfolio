@@ -294,6 +294,21 @@ main {
   gap: 12px 28px;
 }
 
+.section-content {
+  overflow: hidden;
+  max-height: 2000px;
+  transition: max-height 420ms ease, opacity 260ms ease;
+}
+
+.field-disclosure:not([open]) .section-content {
+  max-height: 0;
+  opacity: 0;
+}
+
+.field-disclosure[open] .section-content {
+  opacity: 1;
+}
+
 .field-empty {
   grid-column: 2 / -1;
   min-height: 112px;
@@ -610,7 +625,17 @@ footer p:last-child {
 
   .mobile-project-list {
     display: grid;
-    padding: 0 0 18px 38px;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0 0 38px;
+    opacity: 0;
+    transition: max-height 380ms ease, opacity 220ms ease, padding-bottom 260ms ease;
+  }
+
+  .mobile-nav-group[open] .mobile-project-list {
+    max-height: 540px;
+    padding-bottom: 18px;
+    opacity: 1;
   }
 
   .mobile-project-list a {
