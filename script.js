@@ -214,6 +214,9 @@ function openMobileMenu() {
 const savedTheme = localStorage.getItem("tia-portfolio-theme");
 setTheme(savedTheme === "dark" ? "dark" : "light", false);
 setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en", false);
+fieldDisclosures.forEach((disclosure) => {
+  disclosure.open = false;
+});
 if (!reduceMotion.matches) typeIntro();
 applyDisclosureHeights();
 syncDisclosureMode();
