@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261104-8">
+    <link rel="stylesheet" href="styles.css?v=20261104-10">
 </head>
 <body>
 
@@ -44,9 +44,9 @@
       </div>
       <p class="menu-kicker" data-i18n="navigation">NAVIGATION</p>
       <nav aria-label="Mobile navigation" data-i18n-aria="mobileNavLabel">
-        <details class="mobile-nav-group">
-          <summary><span>01</span><span data-i18n="webSection">Web Design &amp; Development</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></summary>
-          <div class="mobile-project-list">
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-summary" type="button" aria-expanded="false" aria-controls="mobile-projects-web"><span>01</span><span data-i18n="webSection">Web Design &amp; Development</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></button>
+          <div class="mobile-project-list" id="mobile-projects-web">
             <a href="#bytecraft" data-i18n="bytecraft">ByteCraft Asset Vault</a>
             <a href="#atay">ÄTÄY</a>
             <a href="#horizonpeak">Horizon Peak</a>
@@ -56,13 +56,13 @@
             <a href="#tidyshot">TidyShot</a>
             <a href="#dashio">Dashio</a>
           </div>
-        </details>
-        <details class="mobile-nav-group">
-          <summary><span>02</span><span data-i18n="graphicSection">Graphic Design</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></summary>
-          <div class="mobile-project-list">
+        </div>
+        <div class="mobile-nav-group">
+          <button class="mobile-nav-summary" type="button" aria-expanded="false" aria-controls="mobile-projects-graphic"><span>02</span><span data-i18n="graphicSection">Graphic Design</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></button>
+          <div class="mobile-project-list" id="mobile-projects-graphic">
             <p class="mobile-empty" data-i18n="emptyProjects">New projects in progress.</p>
           </div>
-        </details>
+        </div>
       </nav>
       <div class="mobile-menu-bottom">
         <div class="mobile-language-row">
@@ -86,12 +86,12 @@
             <span class="section-index">01 / FIELD</span>
             <h2 id="web-development-title" data-i18n="webSection">Web Design &amp; Development</h2>
           </div>
-          <details class="field-disclosure">
-            <summary class="section-summary">
+          <div class="field-disclosure">
+            <button class="section-summary" type="button" aria-expanded="false" aria-controls="web-development-content">
               <span class="section-title-wrap"><span class="section-index">01</span><span class="mobile-section-title" data-i18n="webSection">Web Design &amp; Development</span></span>
               <span class="disclosure-indicator" aria-hidden="true"></span>
-            </summary>
-            <div class="section-content">
+            </button>
+            <div class="section-content" id="web-development-content">
               <div class="portfolio-grid">
                 <article class="project-card" id="bytecraft">
                   <div class="card-header">
@@ -159,7 +159,7 @@
                 </article>
               </div>
             </div>
-          </details>
+          </div>
         </section>
 
         <section class="field-section" id="graphic-design" aria-labelledby="graphic-design-title">
@@ -167,17 +167,17 @@
             <span class="section-index">02 / FIELD</span>
             <h2 id="graphic-design-title" data-i18n="graphicSection">Graphic Design</h2>
           </div>
-          <details class="field-disclosure">
-            <summary class="section-summary">
+          <div class="field-disclosure">
+            <button class="section-summary" type="button" aria-expanded="false" aria-controls="graphic-design-content">
               <span class="section-title-wrap"><span class="section-index">02</span><span class="mobile-section-title" data-i18n="graphicSection">Graphic Design</span></span>
               <span class="disclosure-indicator" aria-hidden="true"></span>
-            </summary>
-            <div class="section-content">
+            </button>
+            <div class="section-content" id="graphic-design-content">
               <div class="field-empty">
                 <p data-i18n="emptyProjects">New projects in progress.</p>
               </div>
             </div>
-          </details>
+          </div>
         </section>
     </main>
 
@@ -187,7 +187,7 @@
       <p data-i18n="footerNote">DESIGNED WITH INTENTION</p>
     </footer>
 
-    <script src="script.js?v=20261104-8" defer></script>
+    <script src="script.js?v=20261104-10" defer></script>
 
 </body>
 </html>

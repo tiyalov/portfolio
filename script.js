@@ -6,6 +6,7 @@ const mobileMenu = document.querySelector(".mobile-menu");
 const menuClose = document.querySelector(".menu-close");
 const mobileQuery = window.matchMedia("(max-width: 700px)");
 const fieldDisclosures = document.querySelectorAll(".field-disclosure");
+const mobileNavGroups = document.querySelectorAll(".mobile-nav-group");
 const typingText = document.querySelector(".typing-text");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const translations = {
@@ -104,13 +105,13 @@ function applyDisclosureHeights() {
   fieldDisclosures.forEach((disclosure) => {
     const content = disclosure.querySelector(".section-content");
     if (!content) return;
-    const isOpen = disclosure.open;
+    const isOpen = disclosure.classList.contains("is-open");
     content.style.maxHeight = isOpen ? `${content.scrollHeight}px` : "0px";
     content.style.opacity = isOpen ? "1" : "0";
     content.setAttribute("data-open", String(isOpen));
     content.setAttribute("aria-hidden", String(!isOpen));
     content.inert = !isOpen;
-    disclosure.querySelector("summary").setAttribute("aria-expanded", String(isOpen));
+    disclosure.querySelector(".section-summary").setAttribute("aria-expanded", String(isOpen));
   });
 }
 
@@ -187,8 +188,8 @@ function syncDisclosureMode() {
     closeMobileMenu(false);
   }
   fieldDisclosures.forEach((disclosure) => {
-    disclosure.querySelector("summary").tabIndex = 0;
-    if (disclosure.open && !isMobile) {
+    disclosure.querySelector(".section-summary").tabIndex = 0;
+    if (disclosure.classList.contains("is-open") && !isMobile) {
       disclosure.setAttribute("data-open-desktop", "true");
     }
   });
@@ -212,26 +213,25 @@ function openMobileMenu() {
   menuToggle.setAttribute("aria-expanded", "true");
   menuToggle.setAttribute("aria-label", translations[currentLanguage].closeMenu);
   document.body.style.overflow = "hidden";
-  mobileMenu.querySelector(".mobile-nav-group summary").focus();
+  mobileMenu.querySelector(".mobile-nav-summary").focus();
 }
 
 const savedTheme = localStorage.getItem("tia-portfolio-theme");
 setTheme(savedTheme === "dark" ? "dark" : "light", false);
 setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en", false);
 fieldDisclosures.forEach((disclosure) => {
-  disclosure.open = false;
-  const summary = disclosure.querySelector("summary");
+  const summary = disclosure.querySelector(".section-summary");
   const content = disclosure.querySelector(".section-content");
   summary.setAttribute("aria-expanded", "false");
   content.setAttribute("aria-hidden", "true");
   content.inert = true;
   summary.addEventListener("click", (event) => {
     event.preventDefault();
-    if (disclosure.open) {
+    if (disclosure.classList.contains("is-open")) {
       content.style.maxHeight = `${content.getBoundingClientRect().height}px`;
       content.style.opacity = "1";
       content.offsetHeight;
-      disclosure.open = false;
+      disclosure.classList.remove("is-open");
       summary.setAttribute("aria-expanded", "false");
       content.setAttribute("data-open", "false");
       content.setAttribute("aria-hidden", "true");
@@ -240,13 +240,41 @@ fieldDisclosures.forEach((disclosure) => {
       content.style.opacity = "0";
       return;
     }
-    disclosure.open = true;
+    disclosure.classList.add("is-open");
     summary.setAttribute("aria-expanded", "true");
     content.setAttribute("aria-hidden", "false");
     content.inert = false;
     content.style.maxHeight = `${content.scrollHeight}px`;
     content.style.opacity = "1";
     content.setAttribute("data-open", "true");
+  });
+});
+mobileNavGroups.forEach((group) => {
+  const summary = group.querySelector(".mobile-nav-summary");
+  const panel = group.querySelector(".mobile-project-list");
+  summary.setAttribute("aria-expanded", "false");
+  panel.setAttribute("aria-hidden", "true");
+  panel.inert = true;
+  panel.style.maxHeight = "0px";
+  summary.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (group.classList.contains("is-open")) {
+      panel.style.maxHeight = `${panel.getBoundingClientRect().height}px`;
+      panel.offsetHeight;
+      group.classList.remove("is-open");
+      summary.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
+      panel.inert = true;
+      panel.style.maxHeight = "0px";
+      panel.style.opacity = "0";
+      return;
+    }
+    group.classList.add("is-open");
+    summary.setAttribute("aria-expanded", "true");
+    panel.setAttribute("aria-hidden", "false");
+    panel.inert = false;
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+    panel.style.opacity = "1";
   });
 });
 if (!reduceMotion.matches) typeIntro();
