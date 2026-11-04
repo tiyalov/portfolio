@@ -104,10 +104,12 @@ function applyDisclosureHeights() {
   fieldDisclosures.forEach((disclosure) => {
     const content = disclosure.querySelector(".section-content");
     if (!content) return;
+    if (disclosure.dataset.closing === "true") return;
     const isOpen = disclosure.open;
     content.style.maxHeight = isOpen ? `${content.scrollHeight}px` : "0px";
     content.style.opacity = isOpen ? "1" : "0";
     content.setAttribute("data-open", String(isOpen));
+    disclosure.querySelector("summary").setAttribute("aria-expanded", String(isOpen));
   });
 }
 
@@ -184,7 +186,7 @@ function syncDisclosureMode() {
     closeMobileMenu(false);
   }
   fieldDisclosures.forEach((disclosure) => {
-    disclosure.querySelector("summary").tabIndex = isMobile ? 0 : -1;
+    disclosure.querySelector("summary").tabIndex = 0;
     if (disclosure.open && !isMobile) {
       disclosure.setAttribute("data-open-desktop", "true");
     }
@@ -218,10 +220,38 @@ setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en
 fieldDisclosures.forEach((disclosure) => {
   disclosure.open = false;
   const summary = disclosure.querySelector("summary");
+  summary.setAttribute("aria-expanded", "false");
   summary.addEventListener("click", (event) => {
     event.preventDefault();
-    disclosure.open = !disclosure.open;
-    applyDisclosureHeights();
+    const content = disclosure.querySelector(".section-content");
+    if (disclosure.open && disclosure.dataset.closing !== "true") {
+      content.style.maxHeight = `${content.getBoundingClientRect().height}px`;
+      content.style.opacity = "1";
+      content.offsetHeight;
+      disclosure.dataset.closing = "true";
+      const transitionId = String(Number(disclosure.dataset.transitionId || 0) + 1);
+      disclosure.dataset.transitionId = transitionId;
+      summary.setAttribute("aria-expanded", "false");
+      content.setAttribute("data-open", "false");
+      content.style.maxHeight = "0px";
+      content.style.opacity = "0";
+      const finishClose = (transitionEvent) => {
+        if (transitionEvent.propertyName !== "max-height") return;
+        content.removeEventListener("transitionend", finishClose);
+        if (disclosure.dataset.closing !== "true" || disclosure.dataset.transitionId !== transitionId) return;
+        disclosure.open = false;
+        delete disclosure.dataset.closing;
+      };
+      content.addEventListener("transitionend", finishClose);
+      return;
+    }
+    disclosure.open = true;
+    disclosure.dataset.transitionId = String(Number(disclosure.dataset.transitionId || 0) + 1);
+    delete disclosure.dataset.closing;
+    summary.setAttribute("aria-expanded", "true");
+    content.style.maxHeight = `${content.scrollHeight}px`;
+    content.style.opacity = "1";
+    content.setAttribute("data-open", "true");
   });
 });
 if (!reduceMotion.matches) typeIntro();
