@@ -100,6 +100,16 @@ let isMobile = null;
 let currentLanguage = "en";
 let typingTimer;
 
+function applyDisclosureHeights() {
+  fieldDisclosures.forEach((disclosure) => {
+    const content = disclosure.querySelector(".section-content");
+    if (!content) return;
+    const nextHeight = disclosure.open ? `${content.scrollHeight}px` : "0px";
+    content.style.maxHeight = nextHeight;
+    content.style.opacity = disclosure.open ? "1" : "0";
+  });
+}
+
 function typeIntro() {
   const intro = translations[currentLanguage].heroTitle;
   typingText.textContent = "";
@@ -174,7 +184,11 @@ function syncDisclosureMode() {
   }
   fieldDisclosures.forEach((disclosure) => {
     disclosure.querySelector("summary").tabIndex = isMobile ? 0 : -1;
+    if (disclosure.open && !isMobile) {
+      disclosure.setAttribute("data-open-desktop", "true");
+    }
   });
+  applyDisclosureHeights();
 }
 
 function closeMobileMenu(returnFocus = true) {
@@ -201,7 +215,18 @@ const savedTheme = localStorage.getItem("tia-portfolio-theme");
 setTheme(savedTheme === "dark" ? "dark" : "light", false);
 setLanguage(localStorage.getItem("tia-portfolio-language") === "sl" ? "sl" : "en", false);
 if (!reduceMotion.matches) typeIntro();
+applyDisclosureHeights();
 syncDisclosureMode();
+
+fieldDisclosures.forEach((disclosure) => {
+  const summary = disclosure.querySelector("summary");
+  summary.addEventListener("click", () => {
+    window.requestAnimationFrame(() => applyDisclosureHeights());
+  });
+  disclosure.addEventListener("toggle", () => {
+    window.requestAnimationFrame(() => applyDisclosureHeights());
+  });
+});
 
 themeToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {

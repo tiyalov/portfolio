@@ -308,13 +308,9 @@ main {
 
 .section-content {
   overflow: hidden;
-  max-height: 2000px;
-  transition: max-height 420ms ease, opacity 260ms ease;
-}
-
-.field-disclosure:not([open]) .section-content {
   max-height: 0;
   opacity: 0;
+  transition: max-height 420ms ease, opacity 260ms ease;
 }
 
 .field-disclosure[open] .section-content {
