@@ -173,7 +173,6 @@ function syncDisclosureMode() {
     closeMobileMenu(false);
   }
   fieldDisclosures.forEach((disclosure) => {
-    disclosure.open = !isMobile;
     disclosure.querySelector("summary").tabIndex = isMobile ? 0 : -1;
   });
 }
@@ -211,12 +210,6 @@ themeToggles.forEach((toggle) => {
 });
 languageToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => setLanguage(toggle.dataset.language));
-});
-
-fieldDisclosures.forEach((disclosure) => {
-  disclosure.querySelector("summary").addEventListener("click", (event) => {
-    if (!mobileQuery.matches) event.preventDefault();
-  });
 });
 
 menuToggle.addEventListener("click", () => {

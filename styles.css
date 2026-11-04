@@ -253,8 +253,10 @@ main {
 }
 
 .section-summary {
-  display: none;
-  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
   list-style: none;
 }
 
@@ -277,7 +279,17 @@ main {
 }
 
 .disclosure-indicator {
-  display: none;
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-right: 1px solid var(--pink);
+  border-bottom: 1px solid var(--pink);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 180ms ease;
+}
+
+.field-disclosure[open] .disclosure-indicator {
+  transform: translateY(3px) rotate(225deg);
 }
 
 .section-index {
