@@ -8,6 +8,7 @@ const mobileQuery = window.matchMedia("(max-width: 700px)");
 const fieldDisclosures = document.querySelectorAll(".field-disclosure");
 const typingText = document.querySelector(".typing-text");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const disclosureCloseTimers = new WeakMap();
 const translations = {
   en: {
     pageTitle: "Tia | Portfolio",
@@ -236,16 +237,21 @@ fieldDisclosures.forEach((disclosure) => {
       content.style.maxHeight = "0px";
       content.style.opacity = "0";
       const finishClose = (transitionEvent) => {
-        if (transitionEvent.propertyName !== "max-height") return;
+        if (transitionEvent && transitionEvent.propertyName !== "max-height") return;
         content.removeEventListener("transitionend", finishClose);
+        window.clearTimeout(disclosureCloseTimers.get(disclosure));
+        disclosureCloseTimers.delete(disclosure);
         if (disclosure.dataset.closing !== "true" || disclosure.dataset.transitionId !== transitionId) return;
         disclosure.open = false;
         delete disclosure.dataset.closing;
       };
       content.addEventListener("transitionend", finishClose);
+      disclosureCloseTimers.set(disclosure, window.setTimeout(() => finishClose(), 500));
       return;
     }
     disclosure.open = true;
+    window.clearTimeout(disclosureCloseTimers.get(disclosure));
+    disclosureCloseTimers.delete(disclosure);
     disclosure.dataset.transitionId = String(Number(disclosure.dataset.transitionId || 0) + 1);
     delete disclosure.dataset.closing;
     summary.setAttribute("aria-expanded", "true");
