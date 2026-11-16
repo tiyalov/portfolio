@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261104-10">
+    <link rel="stylesheet" href="styles.css?v=20261116-14">
 </head>
 <body>
 
@@ -59,7 +59,10 @@
         <div class="mobile-nav-group">
           <button class="mobile-nav-summary" type="button" aria-expanded="false" aria-controls="mobile-projects-graphic"><span>02</span><span data-i18n="graphicSection">Graphic Design</span><span class="mobile-nav-indicator" aria-hidden="true">+</span></button>
           <div class="mobile-project-list" id="mobile-projects-graphic">
-            <p class="mobile-empty" data-i18n="emptyProjects">New projects in progress.</p>
+            <a href="#graphic-design" data-i18n="graphicProjectTitle">Concert poster design</a>
+            <a href="#graphic-design" data-i18n="remaxFlyerTitle">Real estate marketing flyer</a>
+            <a href="#graphic-design" data-i18n="remaxEasterPostTitle">RE/MAX Easter campaign post</a>
+            <a href="#graphic-design" data-i18n="zlatorogCoverTitle">Zlatorog book cover design</a>
           </div>
         </div>
       </nav>
@@ -164,9 +167,49 @@
               <span class="disclosure-indicator" aria-hidden="true"></span>
             </button>
             <div class="section-content" id="graphic-design-content">
-              <div class="field-empty">
-                <p data-i18n="emptyProjects">New projects in progress.</p>
+              <div class="graphic-gallery" role="group" aria-label="Graphic design projects" data-i18n-aria="graphicGalleryLabel">
+                <button class="graphic-item" type="button" aria-haspopup="dialog" data-graphic-title="graphicProjectTitle" data-graphic-category="graphicProjectCategory" data-graphic-description="graphicProjectDescription" data-graphic-image="photos/graphic-design-01.jpg" data-graphic-image-alt="graphicProjectImageAlt">
+                  <img class="graphic-item-image" src="photos/graphic-design-01.jpg" alt="" loading="lazy" decoding="async">
+                  <span class="graphic-item-caption">
+                    <span class="graphic-item-index">01</span>
+                    <span class="graphic-item-name" data-i18n="graphicProjectTitle">Concert poster design</span>
+                  </span>
+                </button>
+                <button class="graphic-item" type="button" aria-haspopup="dialog" data-graphic-title="remaxFlyerTitle" data-graphic-category="remaxFlyerCategory" data-graphic-description="remaxFlyerDescription" data-graphic-image="photos/re_flyer.jpg" data-graphic-image-alt="remaxFlyerImageAlt">
+                  <img class="graphic-item-image" src="photos/re_flyer.jpg" alt="" loading="lazy" decoding="async">
+                  <span class="graphic-item-caption">
+                    <span class="graphic-item-index">02</span>
+                    <span class="graphic-item-name" data-i18n="remaxFlyerTitle">Real estate marketing flyer</span>
+                  </span>
+                </button>
+                <button class="graphic-item" type="button" aria-haspopup="dialog" data-graphic-title="remaxEasterPostTitle" data-graphic-category="remaxEasterPostCategory" data-graphic-description="remaxEasterPostDescription" data-graphic-image="photos/Remax Post final.jpg" data-graphic-image-alt="remaxEasterPostImageAlt">
+                  <img class="graphic-item-image" src="photos/Remax Post final.jpg" alt="" loading="lazy" decoding="async">
+                  <span class="graphic-item-caption">
+                    <span class="graphic-item-index">03</span>
+                    <span class="graphic-item-name" data-i18n="remaxEasterPostTitle">RE/MAX Easter campaign post</span>
+                  </span>
+                </button>
+                <button class="graphic-item" type="button" aria-haspopup="dialog" data-graphic-title="zlatorogCoverTitle" data-graphic-category="zlatorogCoverCategory" data-graphic-description="zlatorogCoverDescription" data-graphic-image="photos/book_cover_.jpg" data-graphic-image-alt="zlatorogCoverImageAlt">
+                  <img class="graphic-item-image" src="photos/book_cover_.jpg" alt="" loading="lazy" decoding="async">
+                  <span class="graphic-item-caption">
+                    <span class="graphic-item-index">04</span>
+                    <span class="graphic-item-name" data-i18n="zlatorogCoverTitle">Zlatorog book cover design</span>
+                  </span>
+                </button>
               </div>
+              <dialog class="graphic-dialog" id="graphic-project-dialog" aria-labelledby="graphic-dialog-title" aria-describedby="graphic-dialog-description">
+                <div class="graphic-dialog-layout">
+                  <div class="graphic-dialog-artwork">
+                    <img class="graphic-dialog-image" id="graphic-dialog-image" alt="" decoding="async">
+                  </div>
+                  <div class="graphic-dialog-copy">
+                    <span class="tag" id="graphic-dialog-category"></span>
+                    <h3 id="graphic-dialog-title"></h3>
+                    <p id="graphic-dialog-description"></p>
+                  </div>
+                </div>
+                <button class="graphic-dialog-close" type="button" aria-label="Close project details" data-i18n-aria="graphicDialogClose"><span aria-hidden="true">&times;</span></button>
+              </dialog>
             </div>
           </div>
         </section>
@@ -178,7 +221,7 @@
       <p data-i18n="footerNote">DESIGNED WITH INTENTION</p>
     </footer>
 
-    <script src="script.js?v=20261104-12" defer></script>
+    <script src="script.js?v=20261116-5" defer></script>
 
 </body>
 </html>

@@ -9,6 +9,13 @@ const fieldDisclosures = document.querySelectorAll(".field-disclosure");
 const mobileNavGroups = document.querySelectorAll(".mobile-nav-group");
 const typingText = document.querySelector(".typing-text");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const graphicItems = document.querySelectorAll(".graphic-item:not(:disabled)");
+const graphicDialog = document.querySelector("#graphic-project-dialog");
+const graphicDialogImage = document.querySelector("#graphic-dialog-image");
+const graphicDialogCategory = document.querySelector("#graphic-dialog-category");
+const graphicDialogTitle = document.querySelector("#graphic-dialog-title");
+const graphicDialogDescription = document.querySelector("#graphic-dialog-description");
+let activeGraphicItem = null;
 const translations = {
   en: {
     pageTitle: "Tia | Portfolio",
@@ -41,7 +48,24 @@ const translations = {
     dashioTag: "WEB APP / DASHIO",
     dashioDescription: "A dashcam app for your phone that helps you capture and review driving moments.",
     viewSite: "View",
-    emptyProjects: "New projects in progress.",
+    graphicGalleryLabel: "Graphic design projects",
+    graphicProjectTitle: "Concert poster design",
+    graphicProjectCategory: "GRAPHIC DESIGN / CONCERT POSTER",
+    graphicProjectDescription: "A mock poster designed for an ElGrandeToto concert.",
+    graphicProjectImageAlt: "Graphic design project image",
+    remaxFlyerTitle: "Real estate marketing flyer",
+    remaxFlyerCategory: "GRAPHIC DESIGN / REAL ESTATE",
+    remaxFlyerDescription: "A flyer created during my internship to showcase properties sold by RE/MAX Liberty in Braga. It was my first experience designing within a company's corporate identity.",
+    remaxFlyerImageAlt: "Real estate marketing flyer for RE/MAX Liberty in Braga",
+    remaxEasterPostTitle: "RE/MAX Easter campaign post",
+    remaxEasterPostCategory: "GRAPHIC DESIGN / SOCIAL MEDIA",
+    remaxEasterPostDescription: "An Instagram post designed for RE/MAX's Easter campaign. I had full creative freedom, with the brief to keep to the company's colours.",
+    remaxEasterPostImageAlt: "RE/MAX Liberty Easter campaign Instagram post",
+    zlatorogCoverTitle: "Zlatorog book cover design",
+    zlatorogCoverCategory: "GRAPHIC DESIGN / BOOK COVER",
+    zlatorogCoverDescription: "A modernised book cover for the Slovenian folk tale Zlatorog, designed as part of a university project.",
+    zlatorogCoverImageAlt: "Modernised book cover for the Slovenian folk tale Zlatorog",
+    graphicDialogClose: "Close project details",
     copyright: "© 2026 Tia. All rights reserved.",
     footerNote: "DESIGNED WITH INTENTION",
     openMenu: "Open menu",
@@ -82,7 +106,24 @@ const translations = {
     dashioTag: "SPLETNA APLIKACIJA / DASHIO",
     dashioDescription: "Aplikacija za dashcam za telefon, ki pomaga zajemati in pregledovati vožnje.",
     viewSite: "Ogled",
-    emptyProjects: "Novi projekti so v pripravi.",
+    graphicGalleryLabel: "Projekti grafičnega oblikovanja",
+    graphicProjectTitle: "Oblikovanje koncertnega plakata",
+    graphicProjectCategory: "GRAFIČNO OBLIKOVANJE / KONCERTNI PLAKAT",
+    graphicProjectDescription: "Maketa plakata, zasnovana za koncert ElGrandeTota.",
+    graphicProjectImageAlt: "Slika projekta grafičnega oblikovanja",
+    remaxFlyerTitle: "Promocijski letak za nepremičnine",
+    remaxFlyerCategory: "GRAFIČNO OBLIKOVANJE / NEPREMIČNINE",
+    remaxFlyerDescription: "Letak, oblikovan med prakso za predstavitev nepremičnin, ki jih prodaja RE/MAX Liberty v Bragi. To je bila moja prva izkušnja z oblikovanjem v skladu s celostno grafično podobo podjetja.",
+    remaxFlyerImageAlt: "Promocijski letak za nepremičnine RE/MAX Liberty v Bragi",
+    remaxEasterPostTitle: "Objava za velikonočno kampanjo RE/MAX",
+    remaxEasterPostCategory: "GRAFIČNO OBLIKOVANJE / DRUŽBENA OMREŽJA",
+    remaxEasterPostDescription: "Objava za Instagram, oblikovana za velikonočno kampanjo RE/MAX. Pri oblikovanju sem imela ustvarjalno svobodo, pri čemer sem morala ohraniti barve podjetja.",
+    remaxEasterPostImageAlt: "Objava RE/MAX Liberty za velikonočno kampanjo na Instagramu",
+    zlatorogCoverTitle: "Oblikovanje naslovnice knjige Zlatorog",
+    zlatorogCoverCategory: "GRAFIČNO OBLIKOVANJE / NASLOVNICA KNJIGE",
+    zlatorogCoverDescription: "Posodobljena naslovnica slovenske ljudske pripovedi Zlatorog, oblikovana v okviru univerzitetnega projekta.",
+    zlatorogCoverImageAlt: "Posodobljena naslovnica knjige za slovensko ljudsko pripoved Zlatorog",
+    graphicDialogClose: "Zapri podrobnosti projekta",
     copyright: "© 2026 Tia. Vse pravice pridržane.",
     footerNote: "OBLIKOVANO Z NAMENOM",
     openMenu: "Odpri meni",
@@ -123,6 +164,16 @@ function typeIntro() {
   typingTimer = window.setTimeout(typeNextCharacter, 250);
 }
 
+function updateGraphicDialog(item) {
+  if (!item) return;
+  const dictionary = translations[currentLanguage];
+  graphicDialogImage.src = item.dataset.graphicImage;
+  graphicDialogImage.alt = dictionary[item.dataset.graphicImageAlt];
+  graphicDialogCategory.textContent = dictionary[item.dataset.graphicCategory];
+  graphicDialogTitle.textContent = dictionary[item.dataset.graphicTitle];
+  graphicDialogDescription.textContent = dictionary[item.dataset.graphicDescription];
+}
+
 function setLanguage(language, save = true) {
   currentLanguage = language;
   const dictionary = translations[language];
@@ -134,6 +185,10 @@ function setLanguage(language, save = true) {
   document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
     element.setAttribute("aria-label", dictionary[element.dataset.i18nAria]);
   });
+  document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+    element.alt = dictionary[element.dataset.i18nAlt];
+  });
+  if (activeGraphicItem) updateGraphicDialog(activeGraphicItem);
   document.querySelector(".hero h1").setAttribute("aria-label", dictionary.heroTitle);
   languageToggles.forEach((toggle) => {
     toggle.setAttribute("aria-pressed", String(toggle.dataset.language === language));
@@ -155,7 +210,7 @@ if (!reduceMotion.matches) {
       observer.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
-  document.querySelectorAll(".field-section, .project-card, .field-empty").forEach((element) => {
+  document.querySelectorAll(".field-section, .project-card").forEach((element) => {
     element.classList.add("reveal");
     revealObserver.observe(element);
   });
@@ -285,6 +340,19 @@ themeToggles.forEach((toggle) => {
 languageToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => setLanguage(toggle.dataset.language));
 });
+graphicItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    activeGraphicItem = item;
+    updateGraphicDialog(item);
+    graphicDialog.showModal();
+  });
+});
+graphicDialog.querySelector(".graphic-dialog-close").addEventListener("click", () => {
+  graphicDialog.close();
+});
+graphicDialog.addEventListener("click", (event) => {
+  if (event.target === graphicDialog) graphicDialog.close();
+});
 
 menuToggle.addEventListener("click", () => {
   if (mobileMenu.classList.contains("is-open")) closeMobileMenu(false);
@@ -296,6 +364,10 @@ mobileMenu.querySelectorAll("a").forEach((link) => {
 });
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    if (graphicDialog.open) {
+      graphicDialog.close();
+      return;
+    }
     if (mobileMenu.classList.contains("is-open")) closeMobileMenu();
   }
   if (event.key === "Tab" && mobileMenu.classList.contains("is-open")) {
